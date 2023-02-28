@@ -1,0 +1,26 @@
+{
+  "name": "kosen-syllabus-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikachu2012/kosen-syllabus-parser.git"
+  },
+  "author": "nikachu2012",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikachu2012/kosen-syllabus-parser/issues"
+  },
+  "homepage": "https://github.com/nikachu2012/kosen-syllabus-parser#readme",
+  "devDependencies": {
+    "jsdom": "^21.1.0",
+    "node-fetch": "^3.3.0",
+    "nodemon": "^2.0.20"
+  },
+  "type": "module"
+}
