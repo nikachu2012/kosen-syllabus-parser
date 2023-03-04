@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+
+    "course_start": "node course.js",
+    "course_dev": "nodemon course.js",
     "webserver": "node webserver.js"
   },
   "repository": {
