@@ -3,9 +3,9 @@ import fetch from 'node-fetch'
 import fs from 'fs'
 
 const pageURL = 'http://localhost:3000/origin.html'
+const version = JSON.parse(fs.readFileSync("package.json")).version;
 
-console.log(`kosen-syllabus-parser v1.0.0`)
-console.log(`(C) ${new Date().getFullYear()} nikachu2012`)
+console.log(`kosen-syllabus-parser v${version} / (C) ${new Date().getFullYear()} nikachu2012`)
 const parse = async () => {
     const start = performance.now();
 
@@ -30,11 +30,12 @@ const parse = async () => {
         school: document.querySelector(`.breadcrumb`).childNodes[3].textContent.trim(),
         department: document.querySelector(`.col-xs-4`).textContent.trim(),
         date: new Date().getTime(),
+        created: "kosen-syllabus-parser v" + version,
         url: pageURL,
 
-        subject: [],
+        course: [],
 
-        teacher: {},
+        instructor: {},
     };
 
     const yearJPN = document.querySelectorAll(`.btn-group`)[1].childNodes[1].textContent.trim()
@@ -65,7 +66,7 @@ const parse = async () => {
                 semester: {},
                 quarter: {},
             },
-            teacher: {},
+            instructor: {},
         }
 
         // コースの区分
@@ -278,33 +279,34 @@ const parse = async () => {
         }
 
         // 担当教員
-        const teacherText = e.children[26].textContent.trim();
-        const teacherList = teacherText.split(',');
-        subjectData.teacher.text = teacherText;
-        subjectData.teacher.list = teacherList
+        const instructorText = e.children[26].textContent.trim();
+        const instructorList = instructorText.split(',');
+        subjectData.instructor.text = instructorText;
+        subjectData.instructor.list = instructorList
 
-        teacherList.forEach((e, i) => {
-            if(parse.teacher[e] == undefined){
-                parse.teacher[e] = {};
-                parse.teacher[e].subject = {};
-                parse.teacher[e].subject.all = [];
-                parse.teacher[e].subject.grade = [[],[],[],[],[]];
+        instructorList.forEach((e, i) => {
+            if(parse.instructor[e] == undefined){
+                parse.instructor[e] = {};
+                parse.instructor[e].subject = {};
+                parse.instructor[e].subject.all = [];
+                parse.instructor[e].subject.grade = [[],[],[],[],[]];
             }
-            parse.teacher[e].url = `https://research.kosen-k.go.jp/plugin/rmaps/index/11/122?name=${encodeURIComponent(e).replace('%20', '+')}&area=A04&affiliation=6600`
-            parse.teacher[e].subject.all.push(subjectNameList.textContent.trim())
-            parse.teacher[e].subject.grade[subjectData.class.grade - 1].push(subjectNameList.textContent.trim())
+            parse.instructor[e].url = `https://research.kosen-k.go.jp/plugin/rmaps/index/11/122?name=${encodeURIComponent(e).replace('%20', '+')}&area=A04&affiliation=6600`
+            parse.instructor[e].subject.all.push(subjectNameList.textContent.trim())
+            parse.instructor[e].subject.grade[subjectData.class.grade - 1].push(subjectNameList.textContent.trim())
         })
 
         // 履修上の区分
         subjectData.division = e.children[27].textContent.trim();
         
-        parse.subject.push(subjectData)
+        parse.course.push(subjectData)
     })
 
     console.log(`success ${performance.now() - start}ms`)
 
-    fs.writeFile('output.json', JSON.stringify(parse, null, '    '), (err) => { console.error(err) });
-    console.log('data saved.')
+    fs.writeFile('output.json', JSON.stringify(parse, null, '    '), () => {
+        console.log('data saved.')
+    });
 }
 
 parse();
