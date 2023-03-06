@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-
+    "start": "node department.js",
+    "dev": "nodemon department.js",
     "course_start": "node course.js",
     "course_dev": "nodemon course.js",
     "webserver": "node webserver.js"
