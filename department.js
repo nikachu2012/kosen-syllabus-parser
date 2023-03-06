@@ -99,7 +99,7 @@ const parse = async () => {
             urlList.push(location.protocol + '//' + location.hostname + subjectNameList.getAttribute('href'));
             subjectData.descVisibility = true;
         }
-        else if (subjectNameList.tagName == "DIV") {
+        else if (subjectNameList.tagName == "SPAN") {
             subjectData.description = location.protocol + '//' + location.hostname + document.querySelectorAll('.mcc-hide')[i].getAttribute('href');
             urlList.push(location.protocol + '//' + location.hostname + document.querySelectorAll('.mcc-hide')[i].getAttribute('href'))
             subjectData.descVisibility = false;
