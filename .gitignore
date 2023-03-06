@@ -1,4 +1,3 @@
 node_modules
 serve/
-output.json
-output_course.json
+dist/

@@ -304,7 +304,11 @@ const parse = async () => {
 
     console.log(`success ${performance.now() - start}ms`)
 
-    fs.writeFile('output.json', JSON.stringify(parse, null, '    '), () => {
+    if(!fs.existsSync("dist")){
+        fs.mkdirSync("dist")
+    }
+
+    fs.writeFile('dist/department.json', JSON.stringify(parse, null, '    '), () => {
         console.log('data saved.')
     });
 }
