@@ -130,156 +130,236 @@ const parse = async () => {
         if (e.children[6].textContent.trim() !== '' || e.children[7].textContent.trim() !== '' || e.children[8].textContent.trim() !== '' || e.children[9].textContent.trim() !== '') {
             subjectData.class.grade = 1;
 
-            const firstQuarter = Number(e.children[6].textContent.trim(), 10);
-            const secondQuarter = Number(e.children[7].textContent.trim(), 10);
-            const thirdQuarter = Number(e.children[8].textContent.trim(), 10);
-            const fourthQuarter = Number(e.children[9].textContent.trim(), 10)
+            if (e.children[6].textContent.trim() !== "集中講義") {
+                subjectData.class.concentration = false;
 
-            subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
+                const firstQuarter = Number(e.children[6].textContent.trim(), 10);
+                const secondQuarter = Number(e.children[7].textContent.trim(), 10);
+                const thirdQuarter = Number(e.children[8].textContent.trim(), 10);
+                const fourthQuarter = Number(e.children[9].textContent.trim(), 10)
 
-            subjectData.class.semester.first = firstQuarter + secondQuarter;
-            subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+                subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
 
-            if (e.children[6].colSpan == 2) {
-                subjectData.class.quarter.first = firstQuarter;
-                subjectData.class.quarter.second = null;
+                subjectData.class.semester.first = firstQuarter + secondQuarter;
+                subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+
+                if (e.children[6].colSpan == 2) {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = null;
+                }
+                else {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = secondQuarter;
+                }
+
+                if (e.children[8].colSpan == 2) {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = null;
+                }
+                else {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = fourthQuarter;
+                }
             }
             else {
-                subjectData.class.quarter.first = firstQuarter;
-                subjectData.class.quarter.second = secondQuarter;
-            }
+                subjectData.class.concentration = true;
 
-            if (e.children[8].colSpan == 2) {
-                subjectData.class.quarter.third = thirdQuarter;
+                subjectData.class.hour = null;
+
+                subjectData.class.semester.first = null;
+                subjectData.class.semester.second = null;
+
+                subjectData.class.quarter.first = null;
+                subjectData.class.quarter.second = null;
+                subjectData.class.quarter.third = null;
                 subjectData.class.quarter.fourth = null;
             }
-            else {
-                subjectData.class.quarter.third = thirdQuarter;
-                subjectData.class.quarter.fourth = fourthQuarter;
-            }
+
         }
         else if (e.children[10].textContent.trim() !== '' || e.children[11].textContent.trim() !== '' || e.children[12].textContent.trim() !== '' || e.children[13].textContent.trim() !== '') {
             subjectData.class.grade = 2;
 
-            const firstQuarter = Number(e.children[10].textContent.trim(), 10);
-            const secondQuarter = Number(e.children[11].textContent.trim(), 10);
-            const thirdQuarter = Number(e.children[12].textContent.trim(), 10);
-            const fourthQuarter = Number(e.children[13].textContent.trim(), 10)
+            if (e.children[10].textContent.trim() !== "集中講義") {
+                subjectData.class.concentration = false;
 
-            subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
+                const firstQuarter = Number(e.children[10].textContent.trim(), 10);
+                const secondQuarter = Number(e.children[11].textContent.trim(), 10);
+                const thirdQuarter = Number(e.children[12].textContent.trim(), 10);
+                const fourthQuarter = Number(e.children[13].textContent.trim(), 10)
 
-            subjectData.class.semester.first = firstQuarter + secondQuarter;
-            subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+                subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
 
-            if (e.children[10].colSpan == 2) {
-                subjectData.class.quarter.first = firstQuarter;
+                subjectData.class.semester.first = firstQuarter + secondQuarter;
+                subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+
+                if (e.children[10].colSpan == 2) {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = null;
+                }
+                else {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = secondQuarter;
+                }
+
+                if (e.children[12].colSpan == 2) {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = null;
+                }
+                else {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = fourthQuarter;
+                }
+            }
+            else {
+                subjectData.class.concentration = true;
+
+                subjectData.class.hour = null;
+
+                subjectData.class.semester.first = null;
+                subjectData.class.semester.second = null;
+
+                subjectData.class.quarter.first = null;
                 subjectData.class.quarter.second = null;
-            }
-            else {
-                subjectData.class.quarter.first = firstQuarter;
-                subjectData.class.quarter.second = secondQuarter;
-            }
-
-            if (e.children[12].colSpan == 2) {
-                subjectData.class.quarter.third = thirdQuarter;
+                subjectData.class.quarter.third = null;
                 subjectData.class.quarter.fourth = null;
-            }
-            else {
-                subjectData.class.quarter.third = thirdQuarter;
-                subjectData.class.quarter.fourth = fourthQuarter;
             }
         }
         else if (e.children[14].textContent.trim() !== '' || e.children[15].textContent.trim() !== '' || e.children[16].textContent.trim() !== '' || e.children[17].textContent.trim() !== '') {
             subjectData.class.grade = 3;
 
-            const firstQuarter = Number(e.children[14].textContent.trim(), 10);
-            const secondQuarter = Number(e.children[15].textContent.trim(), 10);
-            const thirdQuarter = Number(e.children[16].textContent.trim(), 10);
-            const fourthQuarter = Number(e.children[17].textContent.trim(), 10)
+            if (e.children[14].textContent.trim() !== "集中講義") {
+                subjectData.class.concentration = false;
+                const firstQuarter = Number(e.children[14].textContent.trim(), 10);
+                const secondQuarter = Number(e.children[15].textContent.trim(), 10);
+                const thirdQuarter = Number(e.children[16].textContent.trim(), 10);
+                const fourthQuarter = Number(e.children[17].textContent.trim(), 10)
 
-            subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
+                subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
 
-            subjectData.class.semester.first = firstQuarter + secondQuarter;
-            subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+                subjectData.class.semester.first = firstQuarter + secondQuarter;
+                subjectData.class.semester.second = thirdQuarter + fourthQuarter;
 
-            if (e.children[14].colSpan == 2) {
-                subjectData.class.quarter.first = firstQuarter;
+                if (e.children[14].colSpan == 2) {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = null;
+                }
+                else {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = secondQuarter;
+                }
+
+                if (e.children[16].colSpan == 2) {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = null;
+                }
+                else {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = fourthQuarter;
+                }
+            }
+            else {
+                subjectData.class.concentration = true;
+
+                subjectData.class.hour = null;
+
+                subjectData.class.semester.first = null;
+                subjectData.class.semester.second = null;
+
+                subjectData.class.quarter.first = null;
                 subjectData.class.quarter.second = null;
-            }
-            else {
-                subjectData.class.quarter.first = firstQuarter;
-                subjectData.class.quarter.second = secondQuarter;
-            }
-
-            if (e.children[16].colSpan == 2) {
-                subjectData.class.quarter.third = thirdQuarter;
+                subjectData.class.quarter.third = null;
                 subjectData.class.quarter.fourth = null;
-            }
-            else {
-                subjectData.class.quarter.third = thirdQuarter;
-                subjectData.class.quarter.fourth = fourthQuarter;
             }
         }
         else if (e.children[18].textContent.trim() !== '' || e.children[19].textContent.trim() !== '' || e.children[20].textContent.trim() !== '' || e.children[21].textContent.trim() !== '') {
             subjectData.class.grade = 4;
 
-            const firstQuarter = Number(e.children[18].textContent.trim(), 10);
-            const secondQuarter = Number(e.children[19].textContent.trim(), 10);
-            const thirdQuarter = Number(e.children[20].textContent.trim(), 10);
-            const fourthQuarter = Number(e.children[21].textContent.trim(), 10)
+            if (e.children[18].textContent.trim() !== "集中講義") {
+                subjectData.class.concentration = false;
+                const firstQuarter = Number(e.children[18].textContent.trim(), 10);
+                const secondQuarter = Number(e.children[19].textContent.trim(), 10);
+                const thirdQuarter = Number(e.children[20].textContent.trim(), 10);
+                const fourthQuarter = Number(e.children[21].textContent.trim(), 10)
 
-            subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
+                subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
 
-            subjectData.class.semester.first = firstQuarter + secondQuarter;
-            subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+                subjectData.class.semester.first = firstQuarter + secondQuarter;
+                subjectData.class.semester.second = thirdQuarter + fourthQuarter;
 
-            if (e.children[18].colSpan == 2) {
-                subjectData.class.quarter.first = firstQuarter;
+                if (e.children[18].colSpan == 2) {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = null;
+                }
+                else {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = secondQuarter;
+                }
+
+                if (e.children[20].colSpan == 2) {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = null;
+                }
+                else {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = fourthQuarter;
+                }
+            } else {
+                subjectData.class.concentration = true;
+
+                subjectData.class.hour = null;
+
+                subjectData.class.semester.first = null;
+                subjectData.class.semester.second = null;
+
+                subjectData.class.quarter.first = null;
                 subjectData.class.quarter.second = null;
-            }
-            else {
-                subjectData.class.quarter.first = firstQuarter;
-                subjectData.class.quarter.second = secondQuarter;
-            }
-
-            if (e.children[20].colSpan == 2) {
-                subjectData.class.quarter.third = thirdQuarter;
+                subjectData.class.quarter.third = null;
                 subjectData.class.quarter.fourth = null;
-            }
-            else {
-                subjectData.class.quarter.third = thirdQuarter;
-                subjectData.class.quarter.fourth = fourthQuarter;
             }
         }
         else if (e.children[22].textContent.trim() !== '' || e.children[23].textContent.trim() !== '' || e.children[24].textContent.trim() !== '' || e.children[25].textContent.trim() !== '') {
             subjectData.class.grade = 5;
+            if (e.children[22].textContent.trim() !== "集中講義") {
+                subjectData.class.concentration = false;
+                const firstQuarter = Number(e.children[22].textContent.trim(), 10);
+                const secondQuarter = Number(e.children[23].textContent.trim(), 10);
+                const thirdQuarter = Number(e.children[24].textContent.trim(), 10);
+                const fourthQuarter = Number(e.children[25].textContent.trim(), 10)
 
-            const firstQuarter = Number(e.children[22].textContent.trim(), 10);
-            const secondQuarter = Number(e.children[23].textContent.trim(), 10);
-            const thirdQuarter = Number(e.children[24].textContent.trim(), 10);
-            const fourthQuarter = Number(e.children[25].textContent.trim(), 10)
+                subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
 
-            subjectData.class.hour = firstQuarter + secondQuarter + thirdQuarter + fourthQuarter
+                subjectData.class.semester.first = firstQuarter + secondQuarter;
+                subjectData.class.semester.second = thirdQuarter + fourthQuarter;
 
-            subjectData.class.semester.first = firstQuarter + secondQuarter;
-            subjectData.class.semester.second = thirdQuarter + fourthQuarter;
+                if (e.children[22].colSpan == 2) {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = null;
+                }
+                else {
+                    subjectData.class.quarter.first = firstQuarter;
+                    subjectData.class.quarter.second = secondQuarter;
+                }
 
-            if (e.children[22].colSpan == 2) {
-                subjectData.class.quarter.first = firstQuarter;
+                if (e.children[24].colSpan == 2) {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = null;
+                }
+                else {
+                    subjectData.class.quarter.third = thirdQuarter;
+                    subjectData.class.quarter.fourth = fourthQuarter;
+                }
+            } else {
+                subjectData.class.concentration = true;
+
+                subjectData.class.hour = null;
+
+                subjectData.class.semester.first = null;
+                subjectData.class.semester.second = null;
+
+                subjectData.class.quarter.first = null;
                 subjectData.class.quarter.second = null;
-            }
-            else {
-                subjectData.class.quarter.first = firstQuarter;
-                subjectData.class.quarter.second = secondQuarter;
-            }
-
-            if (e.children[24].colSpan == 2) {
-                subjectData.class.quarter.third = thirdQuarter;
+                subjectData.class.quarter.third = null;
                 subjectData.class.quarter.fourth = null;
-            }
-            else {
-                subjectData.class.quarter.third = thirdQuarter;
-                subjectData.class.quarter.fourth = fourthQuarter;
             }
         }
 
