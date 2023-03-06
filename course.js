@@ -2,9 +2,8 @@ import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
 import fs from 'fs'
 
-const URL = 'http://localhost:3000/origin_subject2.html'
+const courseURL = JSON.parse(fs.readFileSync("dist/courseURL.json"));
 const version = JSON.parse(fs.readFileSync("package.json")).version;
-
 
 console.log(`kosen-syllabus-parser v${version} / (C) ${new Date().getFullYear()} nikachu2012`)
 
@@ -250,4 +249,6 @@ const parse = async (pageURL) => {
     });
 }
 
-parse(URL)
+courseURL.forEach((element, index) => {
+    parse(element)
+})

@@ -10,6 +10,9 @@ Node.js
 1. `npm run start`を実行
 1. 終了後に`npm run course_start`を実行
 
+## 注意事項
+`course.js`は`dist/courseURL.json`に配列区切りのパース用URLが存在しない場合エラーが発生します。
+
 ## npm scripts
 ```shell
 npm run start
