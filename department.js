@@ -290,11 +290,11 @@ const parse = async () => {
         subjectData.instructor.list = instructorList
 
         instructorList.forEach((e, i) => {
-            if(parse.instructor[e] == undefined){
+            if (parse.instructor[e] == undefined) {
                 parse.instructor[e] = {};
                 parse.instructor[e].subject = {};
                 parse.instructor[e].subject.all = [];
-                parse.instructor[e].subject.grade = [[],[],[],[],[]];
+                parse.instructor[e].subject.grade = [[], [], [], [], []];
             }
             parse.instructor[e].url = `https://research.kosen-k.go.jp/plugin/rmaps/index/11/122?name=${encodeURIComponent(e).replace('%20', '+')}&area=A04&affiliation=6600`
             parse.instructor[e].subject.all.push(subjectNameList.textContent.trim())
@@ -303,13 +303,13 @@ const parse = async () => {
 
         // 履修上の区分
         subjectData.division = e.children[27].textContent.trim();
-        
+
         parse.course.push(subjectData)
     })
 
     console.log(`success ${performance.now() - start}ms`)
 
-    if(!fs.existsSync("dist")){
+    if (!fs.existsSync("dist")) {
         fs.mkdirSync("dist")
     }
 
