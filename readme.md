@@ -6,8 +6,9 @@ Node.js
 
 ## 使用方法
 1. `npm i`
-1. コードの`pageURL`変数の値にスクレイピングするURLを入れる
-1. node.jsで実行
+1. `config.json`の`url`の値にスクレイピングする学科トップページのURLを入れる
+1. `npm run start`を実行
+1. 終了後に`npm run course_start`を実行
 
 ## npm scripts
 ```shell
