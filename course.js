@@ -31,7 +31,7 @@ const parse = async (pageURL) => {
         department: document.querySelector(`.breadcrumb`).children[2].textContent.trim(),
         courseName: document.querySelector(`.breadcrumb`).children[3].textContent.trim(),
         date: new Date().getTime(),
-        
+
         url: pageURL,
 
         information: {
@@ -107,16 +107,24 @@ const parse = async (pageURL) => {
     const semesterText = table.children[5].children[1].textContent.trim()
     parse.information.class.semester.text = semesterText;
     if (semesterText == "前期") {
+        parse.information.class.semester.concentration = false;
         parse.information.class.semester.first = parseFloat(table.children[5].children[3].textContent.trim());
         parse.information.class.semester.second = 0;
     }
     else if (semesterText == "後期") {
+        parse.information.class.semester.concentration = false;
         parse.information.class.semester.first = 0;
         parse.information.class.semester.second = parseFloat(table.children[5].children[3].textContent.trim());
     }
     else if (semesterText == "通年") {
+        parse.information.class.semester.concentration = false;
         parse.information.class.semester.first = parseFloat(table.children[5].children[3].textContent.trim());
         parse.information.class.semester.second = parseFloat(table.children[5].children[3].textContent.trim());
+    }
+    else if (semesterText == "集中") {
+        parse.information.class.semester.concentration = true;
+        parse.information.class.semester.first = null;
+        parse.information.class.semester.second = null;
     }
     else { }
 
@@ -233,9 +241,6 @@ const parse = async (pageURL) => {
             parse.weight[pointName][weightContents[i]] = parseFloat(e.textContent.trim())
         })
     })
-
-    
-
 
 
     console.log(`success ${performance.now() - start}ms`)
