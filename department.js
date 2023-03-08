@@ -55,7 +55,7 @@ const parse = async () => {
     const subjectList = document.querySelectorAll(`#sytablenc tr[data-course-value]`);
 
 
-    //TODO: parse.subjectList = subjectList;
+    parse.courseList = [];
 
     subjectList.forEach((e, i) => {
         //e=科目ごとのDOM
@@ -90,6 +90,7 @@ const parse = async () => {
 
         // 科目名
         subjectData.title = subjectNameList.textContent.trim();
+        parse.courseList.push(subjectNameList.textContent.trim())
 
         var location = new URL(pageURL);
 
