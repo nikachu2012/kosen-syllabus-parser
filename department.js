@@ -1,6 +1,7 @@
 import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
 import fs from 'fs'
+import parseCourse from './course.js'
 
 const url = JSON.parse(fs.readFileSync("config.json")).url
 const version = JSON.parse(fs.readFileSync("package.json")).version;
@@ -383,6 +384,13 @@ const parse = async (pageURL) => {
         subjectData.division = e.children[27].textContent.trim();
 
         parse.course.push(subjectData)
+    })
+
+    // コースの詳細データの取得
+    parse.courseData = {};
+    parse.course.forEach((e, i) => {
+        const course_URL = e.description; // URL
+        parse.courseData[e.title] = parseCourse(course_URL)
     })
 
     console.log(`success ${performance.now() - start}ms`)
