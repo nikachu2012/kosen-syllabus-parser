@@ -2,11 +2,11 @@ import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
 import fs from 'fs'
 
-const pageURL = JSON.parse(fs.readFileSync("config.json")).url
+const url = JSON.parse(fs.readFileSync("config.json")).url
 const version = JSON.parse(fs.readFileSync("package.json")).version;
 
 console.log(`kosen-syllabus-parser v${version} / (C) ${new Date().getFullYear()} nikachu2012`)
-const parse = async () => {
+const parse = async (pageURL) => {
     const start = performance.now();
 
     // ファイルDL
@@ -397,4 +397,4 @@ const parse = async () => {
     });
 }
 
-parse();
+parse(url);
