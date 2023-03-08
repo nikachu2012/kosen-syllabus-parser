@@ -1,13 +1,7 @@
 import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
-import fs from 'fs'
 
-const courseURL = JSON.parse(fs.readFileSync("dist/courseURL.json"));
-const version = JSON.parse(fs.readFileSync("package.json")).version;
-
-console.log(`kosen-syllabus-parser v${version} / (C) ${new Date().getFullYear()} nikachu2012`)
-
-const parse = async (pageURL) => {
+const parseCourse = async (pageURL) => {
     const start = performance.now();
 
     // ファイルDL
@@ -26,13 +20,7 @@ const parse = async (pageURL) => {
     console.log(`parseData create`)
 
     let parse = {
-        school: document.querySelector(`.breadcrumb`).children[1].textContent.trim(),
-        department: document.querySelector(`.breadcrumb`).children[2].textContent.trim(),
-        courseName: document.querySelector(`.breadcrumb`).children[3].textContent.trim(),
-        date: new Date().getTime(),
-
         url: pageURL,
-
         information: {
             category: {},
             credit: {},
@@ -243,12 +231,8 @@ const parse = async (pageURL) => {
 
 
     console.log(`success ${performance.now() - start}ms`)
-
-    fs.writeFile('output_course.json', JSON.stringify(parse, null, '    '), () => {
-        console.log('data saved.')
-    });
+    
+    return parse
 }
 
-courseURL.forEach((element, index) => {
-    parse(element)
-})
+export default parseCourse;
