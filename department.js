@@ -397,10 +397,6 @@ const parse = async () => {
     fs.writeFile('dist/department.json', JSON.stringify(parse, null, '    '), () => {
         console.log('data saved.')
     });
-
-    fs.writeFile('dist/courseURL.json', JSON.stringify(urlList), () => {
-        console.log('courseURL saved.')
-    });
 }
 
 parse();
