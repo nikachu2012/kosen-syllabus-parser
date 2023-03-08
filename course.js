@@ -136,13 +136,22 @@ const parseCourse = async (pageURL) => {
     hyouka = hyouka.slice(1)
 
     hyouka.forEach((e, i) => {
-        let point = e.children[0].textContent.trim();
+        let point = Array.from(e.children[0]).slice(1);
 
         parse.rubric[point] = {};
-        parse.rubric.list.push(point)
-        parse.rubric[point].ideal = e.children[1].innerHTML.trim().replace('<br>', '\n');
-        parse.rubric[point].standard = e.children[2].innerHTML.trim().replace('<br>', '\n');
-        parse.rubric[point].unacceptable = e.children[3].innerHTML.trim().replace('<br>', '\n');
+        // parse.rubric.list.push(point)
+
+        point.forEach((e, i) => {
+            if (i == 0) {
+                parse.rubric[point].ideal = e.innerHTML.trim().replace('<br>', '\n');
+            }
+            else if (i == 1) {
+                parse.rubric[point].standard = e.innerHTML.trim().replace('<br>', '\n');
+            }
+            else if (i == 2) {
+                parse.rubric[point].unacceptable = e.innerHTML.trim().replace('<br>', '\n');
+            }
+        })
     })
 
     // 学科の到達目標項目との関係
@@ -231,7 +240,7 @@ const parseCourse = async (pageURL) => {
 
 
     console.log(`success ${performance.now() - start}ms`)
-    
+
     return parse
 }
 
