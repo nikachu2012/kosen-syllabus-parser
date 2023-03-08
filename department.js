@@ -38,8 +38,6 @@ const parse = async () => {
         instructor: {},
     };
 
-    // 科目パース用のリスト取得
-    let urlList = []
 
     const yearJPN = document.querySelectorAll(`.btn-group`)[1].childNodes[1].textContent.trim()
     if (yearJPN.match(/^..(?=[0-9][0-9]年度)/)[0] == '令和') {
@@ -97,12 +95,10 @@ const parse = async () => {
         // 詳細ページのURL取得
         if (subjectNameList.tagName == 'A') {
             subjectData.description = location.protocol + '//' + location.hostname + subjectNameList.getAttribute('href');
-            urlList.push(location.protocol + '//' + location.hostname + subjectNameList.getAttribute('href'));
             subjectData.descVisibility = true;
         }
         else if (subjectNameList.tagName == "SPAN") {
             subjectData.description = location.protocol + '//' + location.hostname + document.querySelectorAll('.mcc-hide')[i].getAttribute('href');
-            urlList.push(location.protocol + '//' + location.hostname + document.querySelectorAll('.mcc-hide')[i].getAttribute('href'))
             subjectData.descVisibility = false;
         }
         else {
