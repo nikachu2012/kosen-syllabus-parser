@@ -55,6 +55,7 @@ const parse = async () => {
 
     parse.courseList = [];
 
+    // 科目ごとループ
     subjectList.forEach((e, i) => {
         //e=科目ごとのDOM
         //i=index
@@ -386,6 +387,7 @@ const parse = async () => {
 
     console.log(`success ${performance.now() - start}ms`)
 
+    // ファイルセーブ
     if (!fs.existsSync("dist")) {
         fs.mkdirSync("dist")
     }
