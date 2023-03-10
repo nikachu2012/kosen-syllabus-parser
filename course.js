@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
+import fs from 'fs'
 
 const parseCourse = async (pageURL) => {
     const start = performance.now();
@@ -55,6 +56,9 @@ const parseCourse = async (pageURL) => {
 
     // 教科番号
     parse.information.code = table.children[2].children[1].textContent.trim()
+
+    // 授業科目
+    parse.information.title = table.children[1].children[1].textContent.trim()
 
     // 科目区分
     const category = table.children[2].children[3].textContent.trim().split(' / ')
@@ -241,7 +245,10 @@ const parseCourse = async (pageURL) => {
 
     console.log(`success ${performance.now() - start}ms`)
 
-    return parse
-}
 
-export default parseCourse;
+    let changed = JSON.parse(fs.readFileSync('dist/dist.json'))
+    changed.courseData[parse.information.title] = parse
+    fs.writeFileSync('dist/dist.json', JSON.stringify(changed, null, '    '))
+    
+}
+parseCourse(JSON.parse(fs.readFileSync('dist/pageList.json'))[0])
