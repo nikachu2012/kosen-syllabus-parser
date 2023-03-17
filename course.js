@@ -140,7 +140,7 @@ const parseCourse = async (pageURL) => {
     hyouka = hyouka.slice(1)
 
     hyouka.forEach((e, i) => {
-        let point = Array.from(e.children[0]).slice(1);
+        let point = Array.from(e.children).slice(1);
 
         parse.rubric[point] = {};
         // parse.rubric.list.push(point)
