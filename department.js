@@ -395,7 +395,7 @@ const parse = async (pageURL) => {
     parse.courseData = {};
 
     parse.course.forEach(element => {
-        parse.courseData[element.title] = null;
+        parse.courseData[element.code] = null;
     });
 
     console.log(`success ${performance.now() - start}ms`)

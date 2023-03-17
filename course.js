@@ -247,7 +247,7 @@ const parseCourse = async (pageURL) => {
 
 
     let changed = JSON.parse(fs.readFileSync('dist/dist.json'))
-    changed.courseData[parse.information.title] = parse
+    changed.courseData[parse.information.code] = parse
     fs.writeFileSync('dist/dist.json', JSON.stringify(changed, null, '    '))
 
 }
