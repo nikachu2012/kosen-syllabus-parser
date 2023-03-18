@@ -34,9 +34,7 @@ const parseCourse = async (pageURL) => {
         },
 
         objectives: {},
-        rubric: {
-            list: [],
-        },
+        rubric: {},
         assignObjectives: {
             list: [],
         },
