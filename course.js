@@ -142,18 +142,18 @@ const parseCourse = async (pageURL) => {
     hyouka.forEach((e, i) => {
         let point = Array.from(e.children).slice(1);
 
-        parse.rubric[point] = {};
-        // parse.rubric.list.push(point)
+        parse.rubric[e.children[0].textContent] = {};
+        let contentName = e.children[0].textContent;
 
         point.forEach((e, i) => {
             if (i == 0) {
-                parse.rubric[point].ideal = e.innerHTML.trim().replace('<br>', '\n');
+                parse.rubric[contentName].ideal = e.innerHTML.trim().replace('<br>', '\n');
             }
             else if (i == 1) {
-                parse.rubric[point].standard = e.innerHTML.trim().replace('<br>', '\n');
+                parse.rubric[contentName].standard = e.innerHTML.trim().replace('<br>', '\n');
             }
             else if (i == 2) {
-                parse.rubric[point].unacceptable = e.innerHTML.trim().replace('<br>', '\n');
+                parse.rubric[contentName].unacceptable = e.innerHTML.trim().replace('<br>', '\n');
             }
         })
     })
