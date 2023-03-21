@@ -381,9 +381,9 @@ const parse = async (pageURL) => {
                 parse.instructor[e].subject.all = [];
                 parse.instructor[e].subject.grade = [[], [], [], [], []];
             }
-            parse.instructor[e].url = `https://research.kosen-k.go.jp/plugin/rmaps/index/11/122?name=${encodeURIComponent(e).replace('%20', '+')}&area=A04&affiliation=6600`
             parse.instructor[e].subject.all.push(subjectData.code)
             parse.instructor[e].subject.grade[subjectData.class.grade - 1].push(subjectData.code)
+            parse.instructor[e].url = `https://researchmap.jp/researchers?q=${encodeURIComponent(e).replace('%20', '+')}&affiliation=${encodeURIComponent(parse.school)}`
         })
 
         // 履修上の区分
