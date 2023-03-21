@@ -376,6 +376,7 @@ const parse = async (pageURL) => {
         instructorList.forEach((e, i) => {
             if (parse.instructor[e] == undefined) {
                 parse.instructor[e] = {};
+                parse.instructor[e].name = e;
                 parse.instructor[e].subject = {};
                 parse.instructor[e].subject.all = [];
                 parse.instructor[e].subject.grade = [[], [], [], [], []];
