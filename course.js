@@ -2,6 +2,21 @@ import { JSDOM } from 'jsdom'
 import fetch from 'node-fetch'
 import fs from 'fs'
 
+function nativeInnerText(node) {
+    const Node = node;
+    return [...node.childNodes].map(node => {
+        switch (node.nodeType) {
+            case Node.TEXT_NODE:
+                return node.textContent;
+            case Node.ELEMENT_NODE:
+                return nativeInnerText(node);
+            default:
+                return "";
+        }
+    }).join("\n");
+}
+
+
 const parseCourse = async (pageURL) => {
     const start = performance.now();
 
@@ -50,16 +65,16 @@ const parseCourse = async (pageURL) => {
     const table = document.querySelectorAll('tbody')[1]
 
     // 開講年度
-    parse.information.year = parseFloat(table.children[0].children[3].textContent.trim().match(/[0-9][0-9][0-9][0-9]/g)[0])
+    parse.information.year = parseFloat(nativeInnerText(table.children[0].children[3]).trim().match(/[0-9][0-9][0-9][0-9]/g)[0])
 
     // 教科番号
-    parse.information.code = table.children[2].children[1].textContent.trim()
+    parse.information.code = nativeInnerText(table.children[2].children[1]).trim()
 
     // 授業科目
-    parse.information.title = table.children[1].children[1].textContent.trim()
+    parse.information.title = nativeInnerText(table.children[1].children[1]).trim()
 
     // 科目区分
-    const category = table.children[2].children[3].textContent.trim().split(' / ')
+    const category = nativeInnerText(table.children[2].children[3]).trim().split(' / ')
     parse.information.category.typeText = category[0];
     parse.information.category.takeText = category[1];
 
@@ -74,7 +89,7 @@ const parseCourse = async (pageURL) => {
     }
 
     // 単位
-    const credit = table.children[3].children[3].textContent.trim().split(': ')
+    const credit = nativeInnerText(table.children[3].children[3]).trim().split(': ')
     if (credit[0] == "履修単位") {
         parse.information.credit.kosen = true;
     }
@@ -88,27 +103,27 @@ const parseCourse = async (pageURL) => {
     parse.information.credit.count = parseFloat(credit[1]);
 
     // 授業時数
-    parse.information.class.grade = parseFloat(table.children[4].children[3].textContent.trim())
+    parse.information.class.grade = parseFloat(nativeInnerText(table.children[4].children[3]).trim())
 
-    const format = table.children[3].children[1].textContent.trim()
+    const format = nativeInnerText(table.children[3].children[1]).trim()
     parse.information.format = format;
 
-    const semesterText = table.children[5].children[1].textContent.trim()
+    const semesterText = nativeInnerText(table.children[5].children[1]).trim()
     parse.information.class.semester.text = semesterText;
     if (semesterText == "前期") {
         parse.information.class.semester.concentration = false;
-        parse.information.class.semester.first = parseFloat(table.children[5].children[3].textContent.trim());
+        parse.information.class.semester.first = parseFloat(nativeInnerText((table.children[5].children[3])).trim());
         parse.information.class.semester.second = 0;
     }
     else if (semesterText == "後期") {
         parse.information.class.semester.concentration = false;
         parse.information.class.semester.first = 0;
-        parse.information.class.semester.second = parseFloat(table.children[5].children[3].textContent.trim());
+        parse.information.class.semester.second = parseFloat(nativeInnerText(table.children[5].children[3]).trim());
     }
     else if (semesterText == "通年") {
         parse.information.class.semester.concentration = false;
-        parse.information.class.semester.first = parseFloat(table.children[5].children[3].textContent.trim());
-        parse.information.class.semester.second = parseFloat(table.children[5].children[3].textContent.trim());
+        parse.information.class.semester.first = parseFloat(nativeInnerText(table.children[5].children[3]).trim());
+        parse.information.class.semester.second = parseFloat(nativeInnerText(table.children[5].children[3]).trim());
     }
     else if (semesterText == "集中") {
         parse.information.class.semester.concentration = true;
@@ -118,12 +133,12 @@ const parseCourse = async (pageURL) => {
     else { }
 
     // 教員
-    parse.information.instructor.all = table.children[7].children[1].textContent.trim();
-    parse.information.instructor.list = table.children[7].children[1].textContent.trim().split(',');
+    parse.information.instructor.all = nativeInnerText(table.children[7].children[1]).trim();
+    parse.information.instructor.list = nativeInnerText(table.children[7].children[1]).trim().split(',');
 
     // 教材
-    parse.information.textbook.all = table.children[6].children[1].textContent.trim();
-    parse.information.textbook.list = table.children[6].children[1].textContent.trim().split(/,|、/g)
+    parse.information.textbook.all = nativeInnerText(table.children[6].children[1]).trim();
+    parse.information.textbook.list = nativeInnerText(table.children[6].children[1]).trim().split(/,|、/g)
 
 
     //
@@ -140,8 +155,8 @@ const parseCourse = async (pageURL) => {
     hyouka.forEach((e, i) => {
         let point = Array.from(e.children).slice(1);
 
-        parse.rubric[e.children[0].textContent] = {};
-        let contentName = e.children[0].textContent;
+        parse.rubric[nativeInnerText(e.children[0])] = {};
+        let contentName = nativeInnerText(e.children[0]);
 
         point.forEach((e, i) => {
             if (i == 0) {
@@ -183,30 +198,30 @@ const parseCourse = async (pageURL) => {
     document.querySelectorAll('.week_number').forEach((e, i) => {
         if (i <= 7) {
             parse.plan.first.push({
-                week: parseFloat(e.parentElement.children[0].textContent.trim().match(/\d*/)[0]),
-                theme: e.parentElement.children[1].textContent.trim(),
-                goal: e.parentElement.children[2].textContent.trim(),
+                week: parseFloat(nativeInnerText(e.parentElement.children[0]).trim().match(/\d*/)[0]),
+                theme: nativeInnerText(e.parentElement.children[1]).trim(),
+                goal: nativeInnerText(e.parentElement.children[2]).trim(),
             })
         }
         else if (i <= 15) {
             parse.plan.first.push({
-                week: parseFloat(e.parentElement.children[0].textContent.trim().match(/\d*/)[0]),
-                theme: e.parentElement.children[1].textContent.trim(),
-                goal: e.parentElement.children[2].textContent.trim(),
+                week: parseFloat(nativeInnerText(e.parentElement.children[0]).trim().match(/\d*/)[0]),
+                theme: nativeInnerText(e.parentElement.children[1]).trim(),
+                goal: nativeInnerText(e.parentElement.children[2]).trim(),
             })
         }
         else if (1 <= 23) {
             parse.plan.second.push({
-                week: parseFloat(e.parentElement.children[0].textContent.trim().match(/\d*/)[0]),
-                theme: e.parentElement.children[1].textContent.trim(),
-                goal: e.parentElement.children[2].textContent.trim(),
+                week: parseFloat(nativeInnerText(e.parentElement.children[0]).trim().match(/\d*/)[0]),
+                theme: nativeInnerText(e.parentElement.children[1]).trim(),
+                goal: nativeInnerText(e.parentElement.children[2]).trim(),
             })
         }
         else if (i <= 31) {
             parse.plan.second.push({
-                week: parseFloat(e.parentElement.children[0].textContent.trim().match(/\d*/)[0]),
-                theme: e.parentElement.children[1].textContent.trim(),
-                goal: e.parentElement.children[2].textContent.trim(),
+                week: parseFloat(nativeInnerText(e.parentElement.children[0]).trim().match(/\d*/)[0]),
+                theme: nativeInnerText(e.parentElement.children[1]).trim(),
+                goal: nativeInnerText(e.parentElement.children[2]).trim(),
             })
         }
     })
@@ -220,7 +235,7 @@ const parseCourse = async (pageURL) => {
     let weightContents = Array.from(document.querySelector('#MainContent_SubjectSyllabus_wariaiTable').firstElementChild.firstElementChild.children)
     weightContents = weightContents.slice(1, weightContents.length - 1)
     weightContents.forEach((e, i) => {
-        weightContents[i] = e.textContent.trim();
+        weightContents[i] = nativeInnerText(e).trim();
     })
     const weightPoint = Array.from(document.querySelector('#MainContent_SubjectSyllabus_wariaiTable').firstElementChild.children).splice(1);
     parse.weight.point = weightContents;
@@ -231,12 +246,12 @@ const parseCourse = async (pageURL) => {
         pointData.shift();
         pointData.pop();
 
-        const pointName = e.children[0].textContent.trim();
+        const pointName = nativeInnerText(e.children[0]).trim();
         parse.weight[pointName] = {};
 
         parse.weight.contents.push(pointName)
         pointData.forEach((e, i) => {
-            parse.weight[pointName][weightContents[i]] = parseFloat(e.textContent.trim())
+            parse.weight[pointName][weightContents[i]] = parseFloat(nativeInnerText(e).trim())
         })
     })
 
