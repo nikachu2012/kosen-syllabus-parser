@@ -259,13 +259,13 @@ const parseCourse = async (pageURL) => {
     console.log(`success ${performance.now() - start}ms`)
 
 
-    let changed = JSON.parse(fs.readFileSync('dist/dist.json'))
+    let changed = JSON.parse(fs.readFileSync('data/dist.json'))
     changed.courseData[parse.information.code] = parse
-    fs.writeFileSync('dist/dist.json', JSON.stringify(changed, null, '    '))
+    fs.writeFileSync('data/dist.json', JSON.stringify(changed, null, '    '))
 
 }
 
-JSON.parse(fs.readFileSync('dist/pageList.json')).forEach((e, i) => {
+JSON.parse(fs.readFileSync('data/pageList.json')).forEach((e, i) => {
     parseCourse(e)
 })
 

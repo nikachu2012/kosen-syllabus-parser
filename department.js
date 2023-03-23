@@ -29,7 +29,7 @@ const parse = async (pageURL) => {
     let parse = {
         school: document.querySelector(`.breadcrumb`).childNodes[3].textContent.trim(),
         department: document.querySelector(`.col-xs-4`).textContent.trim(),
-        date: new Date().getTime(),
+        time: new Date().getTime(),
         created: "kosen-syllabus-parser v" + version,
         url: pageURL,
 
@@ -408,12 +408,12 @@ const parse = async (pageURL) => {
     console.log(`success ${performance.now() - start}ms`)
 
     // ファイルセーブ
-    if (!fs.existsSync("dist")) {
-        fs.mkdirSync("dist")
+    if (!fs.existsSync("data")) {
+        fs.mkdirSync("data")
     }
 
-    fs.writeFileSync(`dist/dist.json`, JSON.stringify(parse, null, '    '));
-    fs.writeFileSync(`dist/pageList.json`, JSON.stringify(URLList, null, '    '));
+    fs.writeFileSync(`data/dist.json`, JSON.stringify(parse, null, '    '));
+    fs.writeFileSync(`data/pageList.json`, JSON.stringify(URLList, null, '    '));
 }
 
 parse(url);
