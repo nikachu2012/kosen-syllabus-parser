@@ -266,6 +266,8 @@ const parseCourse = async (pageURL) => {
 }
 
 JSON.parse(fs.readFileSync('data/pageList.json')).forEach((e, i) => {
-    parseCourse(e)
+    setInterval(() => {
+        parseCourse(e)
+    }, 2000);
 })
 
